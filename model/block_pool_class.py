@@ -1,5 +1,5 @@
-from point_class import *
-from block_class import *
+from block_class import Block
+from point_class import Point
 
 
 class BlockPool:

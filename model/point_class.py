@@ -26,18 +26,18 @@ class Point:
         return Point(self.x + other.x, self.y + other.y)
 
     def __hash__(self):
-        return self.x * 100 + self.y
+        return hash(self.x * 100 + self.y)
 
     def __str__(self):
         return '(' + str(self.x) + ', ' + str(self.y) + ')'
 
+    def copy(self):
+        return Point(self.x, self.y)
+
     def rotate_left_with_0_0_center(self):
-        if self.x * self.y > 0:
+        if self.x * self.y != 0:
             self.x, self.y = swap(self.x, self.y)
             self.x = -self.x
-        elif self.x * self.y < 0:
-            self.x, self.y = swap(self.x, self.y)
-            self.y = -self.y
         elif self.y == 0:
             self.y = self.x
             self.x = 0
