@@ -1,18 +1,11 @@
 from model import *
+import random
 
 user1 = User()
-board = Board(19)
+user2 = User()
+board = Board(user1, user2)
 
-block = user1.block_pool.block_list[1]
-
-block_copy = block.copy()
-block_copy.rotate_left()
-
-# print block
-# print block_copy
-#
-# print block == block_copy
-#
-for block in block.unique_possible_shapes_list():
-    print block
-
+while len(board.user_possible_puts(user1)) != 0:
+    block_point = random.choice(board.user_possible_puts(user1))
+    board.user_put_block_on_point(user1, block_point[0], block_point[1])
+    print board

@@ -33,3 +33,10 @@ class BlockPool:
         self.block_list.append(Block([Point(0, 0), Point(1, 0), Point(0, 1)]))
         self.block_list.append(Block([Point(0, 0), Point(0, 1)]))
         self.block_list.append(Block([Point(0, 0)]))
+
+    def copy(self):
+        block_pool_copy = BlockPool()
+        block_pool_copy.block_list = []
+        for block in self.block_list:
+            block_pool_copy.block_list.append(block.copy())
+        return block_pool_copy
