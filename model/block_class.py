@@ -12,8 +12,8 @@ class Block:
 
     def __str__(self):
         string = ''
-        for y in range(2, -3, -1):
-            for x in range(-2, 3):
+        for y in [2, 1, 0, -1, -2]:
+            for x in [-2, -1, 0, 1, 2]:
                 if Point(x, y) in self.point_list:
                     string += '[]'
                 else:
