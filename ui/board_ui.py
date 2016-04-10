@@ -23,9 +23,9 @@ class BoardUI(Frame):
         self.board_canvas.pack()
 
         self.create_grid()
-        self.draw_on_point(self.board.init_point_dic[self.board.user1], 'green', True)
+        self.draw_on_point(self.board.init_point_dic[player1], 'green', True)
         self.current_recs = None
-        self.redraw_current_block_on_point(self.board.user1.block_pool.block_list[0],
+        self.redraw_current_block_on_point(self.board.users[player1].block_pool.block_list[0],
                                            Point(self.board.length / 2, self.board.length / 2))
 
     def create_grid(self):
@@ -77,10 +77,3 @@ class BoardUI(Frame):
                 self.board_canvas.delete(rec)
         self.current_recs = self.draw_block_on_point(block, point, color, solid)
 
-    def computer_calculate(self):
-        if len(self.board.user_possible_puts(self.board.user2)) == 0:
-            print 'User 2 out of move'
-            return
-        move = one_level_search(self.board, ValueFunction().oppenent_corners)
-        self.draw_block_on_point(move[0], move[1], 'purple', True)
-        self.board.user_put_block_on_point(self.board.user2, move[0], move[1])

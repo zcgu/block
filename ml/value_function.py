@@ -1,10 +1,20 @@
-
-def corner_different(board):
-    return len(board.find_user_corners(board.user2)) - len(board.find_user_corners(board.user1))
+from model import *
 
 
-def oppenent_corners(board):
-    return -len(board.find_user_corners(board.user1)) * 1000 + len(board.find_user_corners(board.user2))
+def corner_different(board, user):
+    if user == player1:
+        user_o = player2
+    else:
+        user_o = player1
+    return len(board.find_user_corners(user)) - len(board.find_user_corners(user_o))
+
+
+def oppenent_corners(board, user):
+    if user == player1:
+        user_o = player2
+    else:
+        user_o = player1
+    return -len(board.find_user_corners(user_o)) * 1000 + len(board.find_user_corners(user))
 
 
 class ValueFunction:

@@ -1,4 +1,5 @@
 from point_class import Point
+from user_class import User, player1, player2, player3, player4
 
 MODE_TWO_BOARD_LENGTH = 14
 MODE_FOUR_BOARD_LENGTH = 20
@@ -12,10 +13,8 @@ class Board:
     def __init__(self, user1, user2, user3=None, user4=None):
         if (user3 is None and user4 is not None) or (user3 is not None and user4 is None):
             print "Invalid init board: Player number is 3"
-        self.user1 = user1
-        self.user2 = user2
-        self.user3 = user3
-        self.user4 = user4
+        # User list.
+        self.users = [User(), User()]
 
         # Board length.
         if user3 is None:
@@ -29,7 +28,7 @@ class Board:
             for y in range(0, self.length):
                 self.point_list.append(Point(x, y))
 
-        # Points usage. None or user1, user2, etc.
+        # Points usage. None or player1, player2, etc.
         self.point_inuse_dic = {}
         for point in self.point_list:
             self.point_inuse_dic[point] = None
@@ -37,37 +36,28 @@ class Board:
         # Init point position.
         self.init_point_dic = {}
         if user3 is None:
-            self.init_point_dic[user1] = Point(MODE_TWO_INIT_POINT_X_AND_Y,
+            self.init_point_dic[player1] = Point(MODE_TWO_INIT_POINT_X_AND_Y,
                                                MODE_TWO_INIT_POINT_X_AND_Y)
-            self.init_point_dic[user2] = Point(self.length - MODE_TWO_INIT_POINT_X_AND_Y,
+            self.init_point_dic[player2] = Point(self.length - MODE_TWO_INIT_POINT_X_AND_Y,
                                                self.length - MODE_TWO_INIT_POINT_X_AND_Y)
         else:
-            self.init_point_dic[user1] = Point(MODE_FOUR_INIT_POINT_X_AND_Y,
+            self.init_point_dic[player1] = Point(MODE_FOUR_INIT_POINT_X_AND_Y,
                                                MODE_FOUR_INIT_POINT_X_AND_Y)
-            self.init_point_dic[user2] = Point(MODE_FOUR_INIT_POINT_X_AND_Y,
+            self.init_point_dic[player2] = Point(MODE_FOUR_INIT_POINT_X_AND_Y,
                                                self.length - MODE_FOUR_INIT_POINT_X_AND_Y)
-            self.init_point_dic[user3] = Point(self.length - MODE_FOUR_INIT_POINT_X_AND_Y,
+            self.init_point_dic[player3] = Point(self.length - MODE_FOUR_INIT_POINT_X_AND_Y,
                                                self.length - MODE_FOUR_INIT_POINT_X_AND_Y)
-            self.init_point_dic[user4] = Point(self.length - MODE_FOUR_INIT_POINT_X_AND_Y,
+            self.init_point_dic[player4] = Point(self.length - MODE_FOUR_INIT_POINT_X_AND_Y,
                                                MODE_FOUR_INIT_POINT_X_AND_Y)
 
     def copy(self):
-        if self.user3 is None:
-            board_copy = Board(self.user1.copy(), self.user2.copy())
+        if len(self.users) == 2:
+            board_copy = Board(self.users[player1].copy(), self.users[player2].copy())
         else:
-            board_copy = Board(self.user1.copy(), self.user2.copy(), self.user3.copy(), self.user4.copy())
-            for point in self.point_list:
-                if self.point_inuse_dic[point] == self.user3:
-                    board_copy.point_inuse_dic[point] = board_copy.user3
-                elif self.point_inuse_dic[point] == self.user4:
-                    board_copy.point_inuse_dic[point] = board_copy.user4
-
-        for point in self.point_list:
-            if self.point_inuse_dic[point] == self.user1:
-                board_copy.point_inuse_dic[point] = board_copy.user1
-            elif self.point_inuse_dic[point] == self.user2:
-                board_copy.point_inuse_dic[point] = board_copy.user2
-
+            board_copy = Board(self.users[player1].copy(), self.users[player2].copy(),
+                               self.users[player3].copy(), self.users[player4].copy())
+        for point in self.point_inuse_dic:
+            board_copy.point_inuse_dic[point] = self.point_inuse_dic[point]
         return board_copy
 
     def __str__(self):
@@ -135,7 +125,7 @@ class Board:
     def user_put_block_on_point(self, user, block, point):
         for block_point in block.point_list:
             self.point_inuse_dic[block_point + point] = user
-        user.block_pool.block_list.remove(block)
+        self.users[user].block_pool.block_list.remove(block)
 
     def user_possible_block_puts_around_corner(self, user, block, corner_point):
         block_point_list = []
@@ -147,7 +137,7 @@ class Board:
 
     def user_possible_puts_around_corner(self, user, corner_point):
         block_point_list = []
-        for block in user.block_pool.block_list:
+        for block in self.users[user].block_pool.block_list:
             for block_point in self.user_possible_block_puts_around_corner(user, block, corner_point):
                 block_point_list.append(block_point)
         return block_point_list
