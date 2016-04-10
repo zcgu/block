@@ -5,10 +5,14 @@ BOARD_WIDTH = 500
 BLOCK_POOL_WIDTH = BOARD_WIDTH
 BLOCK_POOL_HEIGHT = 300
 
+border = 5.0
+line_width = 2.0
+
 
 class BoardUI(Frame):
     def __init__(self, board, master=None):
         self.board = board
+        self.line_space = (BOARD_WIDTH - 2 * border) / self.board.length
 
         Frame.__init__(self, master)
         self.pack()
@@ -19,20 +23,38 @@ class BoardUI(Frame):
         self.create_grid()
 
     def create_grid(self):
-        border = 5.0
-        line_width = 2.0
-
         board_length_point_number = self.board.length
 
-        line_space = (BOARD_WIDTH - 2 * border) / board_length_point_number
-
         for x in range(0, board_length_point_number + 1):
-            self.board_canvas.create_line(border + x * line_space, border,
-                                          border + x * line_space, BOARD_WIDTH - border,
+            self.board_canvas.create_line(border + x * self.line_space, border,
+                                          border + x * self.line_space, BOARD_WIDTH - border,
                                           fill="black", width=line_width)
 
         for y in range(0, board_length_point_number + 1):
-            self.board_canvas.create_line(border, border + y * line_space,
-                                          BOARD_WIDTH - border, border + y * line_space,
+            self.board_canvas.create_line(border, border + y * self.line_space,
+                                          BOARD_WIDTH - border, border + y * self.line_space,
                                           fill="black", width=line_width)
 
+    def point_to_canvas_point(self, point):
+        point.y = self.board.length - 1 - point.y
+
+        x = point.x * self.line_space + self.line_space / 2 + border
+        y = point.y * self.line_space + self.line_space / 2 + border
+
+        return x, y
+
+    def draw_on_point(self, point, color, solid):
+        x, y = self.point_to_canvas_point(point)
+        if solid:
+            rec = self.board_canvas.create_rectangle(x - self.line_space / 2 + line_width / 2,
+                                                     y - self.line_space / 2 + line_width / 2,
+                                                     x + self.line_space / 2 - line_width / 2,
+                                                     y + self.line_space / 2 - line_width / 2,
+                                                     fill=color, width=0.0)
+        else:
+            rec = self.board_canvas.create_rectangle(x - self.line_space / 2 + line_width,
+                                                     y - self.line_space / 2 + line_width,
+                                                     x + self.line_space / 2 - line_width,
+                                                     y + self.line_space / 2 - line_width,
+                                                     outline=color, width=line_width)
+        return rec

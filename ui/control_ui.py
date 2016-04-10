@@ -1,6 +1,6 @@
 from board_ui import BoardUI
 from Tkinter import *
-
+from model import *
 
 class UIController:
     def __init__(self, board):
@@ -19,6 +19,7 @@ class UIController:
             return
 
     def key_up(self, event):
+        self.app.draw_on_point(Point(1, 1), 'green', True)
         print 'up', event
 
     def key_left(self, event):
@@ -28,4 +29,5 @@ class UIController:
         print 'right', event
 
     def key_down(self, event):
+        self.app.draw_on_point(Point(13, 1), 'red', False)
         print 'down', event
