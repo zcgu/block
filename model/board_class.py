@@ -98,13 +98,16 @@ class Board:
         return corner_point_list
 
     def user_can_put_block_on_point(self, user, block, point):
+        contains_corner = False
         for block_point in block.point_list:
             if not self.user_can_put_on_point(user, block_point + point):
                 return False
-        for block_point in block.point_list:
             if self.is_user_corner(user, block_point + point):
-                return True
-        return False
+                contains_corner = True
+        if contains_corner:
+            return True
+        else:
+            return False
 
     def user_put_block_on_point(self, user, block, point):
         for block_point in block.point_list:
@@ -114,10 +117,9 @@ class Board:
     def user_possible_block_puts_around_corner(self, user, block, corner_point):
         block_point_list = []
         for block_shape in block.unique_possible_shapes_list():
-            for x in range(-2, 3):
-                for y in range(-2, 3):
-                    if self.user_can_put_block_on_point(user, block_shape, corner_point + Point(x, y)):
-                        block_point_list.append((block_shape, corner_point + Point(x, y)))
+            for block_point in block_shape.point_list:
+                if self.user_can_put_block_on_point(user, block_shape, corner_point - block_point):
+                    block_point_list.append((block_shape, corner_point - block_point))
         return block_point_list
 
     def user_possible_puts_around_corner(self, user, corner_point):
