@@ -12,6 +12,10 @@ class Board:
     def __init__(self, user1, user2, user3=None, user4=None):
         if (user3 is None and user4 is not None) or (user3 is not None and user4 is None):
             print "Invalid init board: Player number is 3"
+        self.user1 = user1
+        self.user2 = user2
+        self.user3 = user3
+        self.user4 = user4
 
         # Board length.
         if user3 is None:

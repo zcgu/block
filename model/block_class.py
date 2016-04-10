@@ -95,3 +95,9 @@ class Block:
             if flag:
                 unique_block_list.append(block)
         return unique_block_list
+
+    def in_board_range(self, board, point):
+        for block_point in self.point_list:
+            if not (block_point + point).in_board_range(board):
+                return False
+        return True

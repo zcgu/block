@@ -1,4 +1,5 @@
 from Tkinter import *
+from model import *
 
 BOARD_WIDTH = 500
 
@@ -21,6 +22,10 @@ class BoardUI(Frame):
         self.board_canvas.pack()
 
         self.create_grid()
+        self.draw_on_point(self.board.init_point_dic[self.board.user1], 'green', True)
+        self.current_recs = None
+        self.redraw_current_block_on_point(self.board.user1.block_pool.block_list[0],
+                                           Point(self.board.length / 2, self.board.length / 2))
 
     def create_grid(self):
         board_length_point_number = self.board.length
@@ -44,7 +49,7 @@ class BoardUI(Frame):
         return x, y
 
     def draw_on_point(self, point, color, solid):
-        x, y = self.point_to_canvas_point(point)
+        x, y = self.point_to_canvas_point(point.copy())
         if solid:
             rec = self.board_canvas.create_rectangle(x - self.line_space / 2 + line_width / 2,
                                                      y - self.line_space / 2 + line_width / 2,
@@ -58,3 +63,15 @@ class BoardUI(Frame):
                                                      y + self.line_space / 2 - line_width,
                                                      outline=color, width=line_width)
         return rec
+
+    def draw_block_on_point(self, block, point, color, solid):
+        recs = []
+        for block_point in block.point_list:
+            recs.append(self.draw_on_point(point + block_point, color, solid))
+        return recs
+
+    def redraw_current_block_on_point(self, block, point, color='red', solid=False):
+        if self.current_recs is not None:
+            for rec in self.current_recs:
+                self.board_canvas.delete(rec)
+        self.current_recs = self.draw_block_on_point(block, point, color, solid)
