@@ -13,7 +13,7 @@ class UIController:
         self.root.bind('<Left>', self.key_left)
         self.root.bind('<Right>', self.key_right)
         self.root.bind('<Return>', self.key_enter)
-        self.root.bind('<space>', self.key_space)
+        self.root.bind('<End>', self.key_space)
         self.root.bind('<Tab>', self.key_tab)
 
         self.current_choose = 0
@@ -59,6 +59,8 @@ class UIController:
             self.current_choose = 0
             self.current_transform = 0
             self.app.redraw_current_block_on_point(self.current_block(), self.current_point)
+            self.app.computer_calculate()
+            self.if_game_ends()
 
     def key_space(self, event):
         self.current_transform = (self.current_transform + 1) % \
@@ -88,3 +90,16 @@ class UIController:
             else:
                 self.current_point.y += 1
         self.app.redraw_current_block_on_point(self.current_block(), self.current_point)
+
+    def if_game_ends(self):
+        if len(self.board.user_possible_puts(self.board.user1)) == 0 and \
+                        len(self.board.user_possible_puts(self.board.user2)) == 0:
+            print 'Game Ends'
+            score1 = 0
+            score2 = 0
+            for point in self.board.point_list:
+                if self.board.point_inuse_dic[point] == self.board.user1:
+                    score1 += 1
+                elif self.board.point_inuse_dic[point] == self.board.user2:
+                    score2 += 1
+            print 'Score:', 'Player:', score1, 'Computer:', score2

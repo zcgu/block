@@ -1,5 +1,6 @@
 from Tkinter import *
 from model import *
+from ml import *
 
 BOARD_WIDTH = 500
 
@@ -75,3 +76,11 @@ class BoardUI(Frame):
             for rec in self.current_recs:
                 self.board_canvas.delete(rec)
         self.current_recs = self.draw_block_on_point(block, point, color, solid)
+
+    def computer_calculate(self):
+        if len(self.board.user_possible_puts(self.board.user2)) == 0:
+            print 'User 2 out of move'
+            return
+        move = one_level_search(self.board, ValueFunction().corener_difference)
+        self.draw_block_on_point(move[0], move[1], 'purple', True)
+        self.board.user_put_block_on_point(self.board.user2, move[0], move[1])

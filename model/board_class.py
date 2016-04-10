@@ -51,6 +51,25 @@ class Board:
             self.init_point_dic[user4] = Point(self.length - MODE_FOUR_INIT_POINT_X_AND_Y,
                                                MODE_FOUR_INIT_POINT_X_AND_Y)
 
+    def copy(self):
+        if self.user3 is None:
+            board_copy = Board(self.user1.copy(), self.user2.copy())
+        else:
+            board_copy = Board(self.user1.copy(), self.user2.copy(), self.user3.copy(), self.user4.copy())
+            for point in self.point_list:
+                if self.point_inuse_dic[point] == self.user3:
+                    board_copy.point_inuse_dic[point] = board_copy.user3
+                elif self.point_inuse_dic[point] == self.user4:
+                    board_copy.point_inuse_dic[point] = board_copy.user4
+
+        for point in self.point_list:
+            if self.point_inuse_dic[point] == self.user1:
+                board_copy.point_inuse_dic[point] = board_copy.user1
+            elif self.point_inuse_dic[point] == self.user2:
+                board_copy.point_inuse_dic[point] = board_copy.user2
+
+        return board_copy
+
     def __str__(self):
         string = ''
         for y in range(self.length - 1, -1, -1):
@@ -97,7 +116,7 @@ class Board:
     def find_user_corners(self, user):
         corner_point_list = []
         for point in self.point_list:
-            if self.is_user_corner(user, point):
+            if self.is_user_corner(user, point) and point not in corner_point_list:
                 corner_point_list.append(point)
         return corner_point_list
 
