@@ -1,4 +1,4 @@
-from block import block_pool
+import block as block_class
 
 """
 Board Structure:
@@ -18,8 +18,9 @@ def init_board():
     board = [[], [], []]
 
     for x in range(0, BOARD_LEN):
+        board[points].append([])
         for y in range(0, BOARD_LEN):
-            board[points].append(None)
+            board[points][x].append(None)
 
     for block_num in range(0, 21):
         board[user1].append(block_num)
@@ -29,7 +30,7 @@ def init_board():
 
 
 def put_block(board, user, block_num, shape_num, p):
-    for point in block_pool[block_num][shape_num]:
+    for point in block_class.block_pool[block_num][shape_num]:
         board[points][point[0]+p[0]][point[1]+p[1]] = user
     board[user].remove(block_num)
 
@@ -39,7 +40,9 @@ def in_range(point):
 
 
 def can_put(board, user, p):
-    if not in_range(p) or board[points][p[0]][p[1]] is not None:
+    if not in_range(p):
+        return False
+    if board[points][p[0]][p[1]] is not None:
         return False
     if in_range((p[0] + 1, p[1])) and board[points][p[0] + 1][p[1]] == user:
         return False
@@ -79,7 +82,7 @@ def find_corners(board, user):
 
 
 def can_put_block(board, user, block_num, shape_num, p):
-    block = block_pool[block_num][shape_num]
+    block = block_class.block_pool[block_num][shape_num]
     contains_corner = False
     for point in block:
         if not can_put(board, user, (point[0]+p[0], point[1]+p[1])):
@@ -96,8 +99,8 @@ def possible_puts(board, user):
     block_shape_p_list = []
     for p in find_corners(board, user):
         for block_num in board[user]:
-            for shape_num in range(0, block_pool[block_num]):
-                for point in block_pool[block_num][shape_num]:
+            for shape_num in range(0, len(block_class.block_pool[block_num])):
+                for point in block_class.block_pool[block_num][shape_num]:
                     if can_put_block(board, user, block_num, shape_num, (p[0]-point[0], p[1]-point[1])):
                         block_shape_p_list.append((block_num, shape_num, (p[0]-point[0], p[1]-point[1])))
     return block_shape_p_list

@@ -24,7 +24,7 @@ class UIController:
 
         self.block_num = 0
         self.shape_num = 0
-        self.p = (BOARD_LEN / 2, BOARD_LEN / 2)
+        self.p = [BOARD_LEN / 2, BOARD_LEN / 2]
 
     def start_ui(self):
         self.app.mainloop()
@@ -54,10 +54,10 @@ class UIController:
             self.app.redraw_current_block_on_point(self.block_num, self.shape_num, self.p)
 
     def key_enter(self, event):
-        if can_put_block(user1, self.block_num, self.shape_num, self.p):
+        if can_put_block(self.board, user1, self.block_num, self.shape_num, self.p):
             self.app.draw_block_on_point(self.block_num, self.shape_num, self.p, 'green', True)
             put_block(self.board, user1, self.block_num, self.shape_num, self.p)
-            self.p = (BOARD_LEN / 2, BOARD_LEN / 2)
+            self.p = [BOARD_LEN / 2, BOARD_LEN / 2]
             self.block_num = self.board[user1][0]
             self.shape_num = 0
             self.app.redraw_current_block_on_point(self.block_num, self.shape_num, self.p)

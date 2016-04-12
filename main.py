@@ -1,9 +1,9 @@
 from model import *
-import copy
+from ml import *
+from ui import *
 
 init_block_pool()
-print len(block_pool)
+board = init_board()
+ui = UIController(board, one_level_search, oppenent_corners)
 
-for block in block_pool:
-    print len(block)
-
+ui.start_ui()

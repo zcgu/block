@@ -28,7 +28,7 @@ class BoardUI(Frame):
         self.redraw_current_block_on_point(board[user1][0], 0, (BOARD_LEN / 2, BOARD_LEN / 2))
 
     def create_grid(self):
-        board_length_point_number = self.board.length
+        board_length_point_number = BOARD_LEN
 
         for x in range(0, board_length_point_number + 1):
             self.board_canvas.create_line(border + x * self.line_space, border,

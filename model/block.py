@@ -1,5 +1,5 @@
 import copy
-from board import BOARD_LEN
+import board as board_class
 
 """
 Block Pool structure:
@@ -67,7 +67,8 @@ def init_block_pool():
 
 def in_range(board, block_num, shape_num, p):
     for point in block_pool[block_num][shape_num]:
-        if point[0]+p[0] < 0 or point[0]+p[0] >= BOARD_LEN or point[1]+p[1] < 0 or point[1]+p[1] >= BOARD_LEN:
+        if point[0]+p[0] < 0 or point[0]+p[0] >= board_class.BOARD_LEN \
+                or point[1]+p[1] < 0 or point[1]+p[1] >= board_class.BOARD_LEN:
             return False
     return True
 
