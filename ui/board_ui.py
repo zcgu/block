@@ -76,4 +76,3 @@ class BoardUI(Frame):
             for rec in self.current_recs:
                 self.board_canvas.delete(rec)
         self.current_recs = self.draw_block_on_point(block_num, shape_num, p, color, solid)
-

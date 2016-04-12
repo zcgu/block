@@ -59,7 +59,7 @@ def is_corner(board, user, p):
     if not in_range(p) or not can_put(board, user, p):
         return False
     if (p[0] == INIT_POINT and p[1] == INIT_POINT and user == user1) or \
-            (p[0] == BOARD_LEN - INIT_POINT and p[1] == BOARD_LEN - INIT_POINT and user == user2):
+            (p[0] == BOARD_LEN - INIT_POINT - 1 and p[1] == BOARD_LEN - INIT_POINT - 1 and user == user2):
         return True
     if in_range((p[0] + 1, p[1] + 1)) and board[points][p[0] + 1][p[1] + 1] == user:
         return True

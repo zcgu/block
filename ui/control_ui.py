@@ -1,5 +1,6 @@
 from Tkinter import *
 from model import *
+import time
 
 import model
 
@@ -61,6 +62,7 @@ class UIController:
             self.block_num = self.board[user1][0]
             self.shape_num = 0
             self.app.redraw_current_block_on_point(self.block_num, self.shape_num, self.p)
+            self.root.update_idletasks()
             self.computer_calculate()
             self.if_game_ends()
 
