@@ -34,21 +34,21 @@ def init_block_pool():
 
     for block_num in range(0, len(block_pool)):
         block = block_pool[block_num]
-        block.append(top_turn(block[0]))
-        block.append(left_turn(block[0]))
-        block.append(left_turn(top_turn(block[0])))
         block.append(rotate(block[0]))
         block.append(rotate(rotate(block[0])))
         block.append(rotate(rotate(rotate(block[0]))))
-        block.append(rotate(block[1]))
-        block.append(rotate(rotate(block[1])))
-        block.append(rotate(rotate(rotate(block[1]))))
-        block.append(rotate(block[2]))
-        block.append(rotate(rotate(block[2])))
-        block.append(rotate(rotate(rotate(block[2]))))
-        block.append(rotate(block[3]))
-        block.append(rotate(rotate(block[3])))
-        block.append(rotate(rotate(rotate(block[3]))))
+        block.append(top_turn(block[0]))
+        block.append(rotate(block[4]))
+        block.append(rotate(rotate(block[4])))
+        block.append(rotate(rotate(rotate(block[4]))))
+        block.append(left_turn(block[0]))
+        block.append(rotate(block[8]))
+        block.append(rotate(rotate(block[8])))
+        block.append(rotate(rotate(rotate(block[8]))))
+        block.append(left_turn(top_turn(block[0])))
+        block.append(rotate(block[9]))
+        block.append(rotate(rotate(block[9])))
+        block.append(rotate(rotate(rotate(block[9]))))
 
         for shape_num in range(0, len(block)):
             block[shape_num] = sort_shape(block[shape_num])

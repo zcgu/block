@@ -1,2 +1,2 @@
-from value_function import *
-from one_level_search import one_level_search
+from value_func import opponent_corners
+from search import one_level_search, two_level_search

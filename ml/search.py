@@ -16,3 +16,13 @@ def one_level_search(board, user, value_func, return_list=False):
         return que
     else:
         return que[0][1]
+
+
+def two_level_search(board, user, value_func):
+    que1 = one_level_search(board, user, value_func, True)
+    que1 = que1[:min(10, len(que1))]
+    for state in que1:
+        que2 = one_level_search(board, user1 + user2 - user, value_func, True)
+        state.append(value_func(que2[0][0], user1 + user2 - user))
+    que1 = sorted(que1, key=lambda states: states[2])
+    return que1[0][1]
